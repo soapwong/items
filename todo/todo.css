@@ -1,0 +1,65 @@
+html {
+    overflow: hidden;
+}
+.title {
+    margin: 10px;
+    padding-top: 20px;
+    font-size: 30px;
+    color: #1296db;
+}
+/* icon基本配置 */
+.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+.done {
+    color: gray;
+    text-decoration: line-through;
+}
+
+
+/* Todo Buttons */
+.todo-cell {
+    margin: 3px;
+}
+
+svg {
+    padding: 2px;
+    margin-bottom: -3px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+}
+svg:hover {
+    animation: borderAnim 3s infinite;
+}
+@keyframes borderAnim {
+    0% {
+        border: 1px solid;
+    }
+    15% {
+        border: 1px solid #1296db;
+        color: #1296db;
+    }
+    50% {
+        border: 1px solid #1296db;
+        color: #1296db;
+    }
+    100% {
+        border: 1px solid;
+    }
+}
+
+#id-button-add {
+    background: transparent;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+}
+
+#id-button-add:hover {
+    animation: borderAnim 1s infinite;
+}

@@ -1,0 +1,56 @@
+/* 轮播图 */
+.soap-slide {
+    position: relative;
+    width: 440px;
+}
+.soap-slide-image {
+    display: none;
+}
+/*soap-slide-image*/
+.soap-active {
+    display: inline-block;
+}
+.soap-slide-button {
+    position: absolute;
+    height: 50px;
+    width: 30px;
+    color: #fff;
+    background: #000;
+    opacity: 0.3;
+    border: none;
+    cursor: pointer;
+}
+.soap-slide-button:focus {
+    outline: none;
+}
+.soap-slide-button.soap-left {
+    left: 0;
+}
+.soap-slide-button.soap-right {
+    right: 0;
+}
+/*
+垂直居中元素的套路 CSS
+*/
+.soap-vertical-center {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.soap-slide-indicators {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    text-align: center;
+}
+.soap-slide-indi {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: red;
+}
+.soap-white {
+    background: white;
+}
