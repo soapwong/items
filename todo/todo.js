@@ -15,7 +15,6 @@ const templateTodo = function(todo) {
     `
     return t
 }
-
 const loadTodos = () => {
     let s = localStorage.savedTodos
     if (s === undefined) {

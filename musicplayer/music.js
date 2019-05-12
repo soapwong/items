@@ -1,7 +1,3 @@
-const log = console.log.bind(console)
-const e = selector => document.querySelector(selector)
-const es = selector => document.querySelectorAll(selector)
-
 const showCurrentTime = function(audio) {
     // 用定时器, 动态添加时间
     setInterval(function() {
