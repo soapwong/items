@@ -33,10 +33,10 @@ const bindEventChange = function(audio) {
         audio.src = path
     })
 }
-
+// chrome 新版禁止了自动播放
 const bindEventCanplay = function(audio) {
     audio.addEventListener('canplay', () => {
-        audio.play()
+        // audio.play()
         showCurrentTime(audio)
     })
 }
