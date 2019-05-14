@@ -119,7 +119,7 @@ const bindEventEdit = () => {
 
 const bindEventUpdate = () => {
     let todoContainer = e('#id-div-container')
-    bindEvent(todoContainer, 'click', function(event) {
+    bindEvent(todoContainer, 'keydown', function(event) {
         let target = event.target
         if (target.classList.contains('todo-task')) {
             if (event.key === 'Enter') {
