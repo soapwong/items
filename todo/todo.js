@@ -1,6 +1,6 @@
 const templateTodo = function(todo) {
     let t = `
-        <div class="todo-cell todo-delete">
+        <div class="todo-cell">
             <svg class="icon todo-done" aria-hidden="true">
                 <use xlink:href="#iconcheck-circle"></use>
             </svg>
@@ -30,7 +30,7 @@ const insertTodos = todos => {
     for (let i = 0; i < todos.length; i++) {
         let todo = todos[i]
         let html = templateTodo(todo)
-        todoContainer.insertAdjacentHTML('beforeend', html)
+        appendHtml(todoContainer, html)
     }
 }
 
@@ -76,7 +76,7 @@ const bindEventAdd = (todos) => {
         saveTodo(todos, todo)
         let todoContainer = e('#id-div-container')
         let t = templateTodo(todo)
-        todoContainer.insertAdjacentHTML('beforeend', t)
+        appendHtml(todoContainer, t)
     })
 }
 
