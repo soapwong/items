@@ -1,8 +1,7 @@
 const showCurrentTime = function(audio) {
-    // 用定时器, 动态添加时间
+    // 动态添加时间
     setInterval(function() {
         let currentLabel = e('#id-span-current')
-        let durationLabel = e('#id-span-duration')
         let current = parseInt(audio.currentTime, 10)
         let duration = parseInt(audio.duration, 10)
         let s = `当前时间: ${current} 秒 / 总时间: ${duration} 秒`
@@ -70,7 +69,7 @@ var allSongs = function () {
     return songs
 }
 
-var cycleSingle = function (audio) {
+var singlePlay = function (audio) {
     var songs = allSongs()
     var src = audio.src.split('/').slice(-1)[0]
     for (var i = 0; i < songs.length; i++) {
@@ -124,7 +123,7 @@ var shufflePlay = function (audio) {
 const nextSong = function(audio) {
     let button = e('#id-play-mode')
     if (button.classList.contains('danquxunhuan')) {
-        var song = cycleSingle(audio)
+        var song = singlePlay(audio)
     } else if (button.classList.contains('liebiaoxunhuan')) {
         var song = loopPlay(audio)
     } else if (button.classList.contains('suiji')) {
@@ -136,7 +135,7 @@ const nextSong = function(audio) {
 const lastSong = function (audio) {
     let button = e('#id-play-mode')
     if (button.classList.contains('danquxunhuan')) {
-        var song = cycleSingle(audio)
+        var song = singlePlay(audio)
     } else if (button.classList.contains('liebiaoxunhuan')) {
         var song = loopPlayLast(audio)
     } else if (button.classList.contains('suiji')) {

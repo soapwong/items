@@ -1,6 +1,39 @@
+audio {
+    display: none;
+}
+
+.controler {
+    display: block;
+    font-size: 1em;
+}
+.controler svg {
+    display: inline-block;
+    color: #1296db;
+    cursor: pointer
+}
+
 .icon {
-    width: 1em; height: 1em;
+    width: 1.5em;
+    height: 1.5em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
+}
+.icon:hover {
+    opacity: 0.7;
+}
+
+
+.selected {
+    color: #1296db;
+    cursor: pointer;
+}
+
+.selected:hover {
+    cursor: pointer;
+}
+
+.song:hover {
+    opacity: 0.7;
+    cursor: pointer;
 }
