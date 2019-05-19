@@ -2,14 +2,64 @@ audio {
     display: none;
 }
 
+.wrapper {
+    height: 200px;
+    width: 400px;
+    padding-left: -10px;
+    border-radius: 20px;
+    border-style: solid;
+    margin-top: 20px;
+    padding: 0 1.5em;
+    width: 20em;
+    background: white;
+    /* background: rgba(0, 0, 0, 0.2) url(background.jpg); */
+    color: black;
+    font-family: 'Microsoft YaHei', Geneva, Tahoma, sans-serif;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100px;
+    border-radius: 10px; 
+}
+input[type=range]::-webkit-slider-runnable-track {
+    height: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 25px;
+    width: 25px;
+    margin-top: -5px;
+    background: #ffffff;
+    border-radius: 50%;
+    border: solid 0.125em #1296db;
+    box-shadow: 0 .125em .125em #3b4547;
+}
+input:hover {
+    cursor: pointer;
+}
+
+.information {
+    margin: 1em 0;
+}
+
 .controler {
     display: block;
     font-size: 1em;
 }
-.controler svg {
+.controler div {
     display: inline-block;
+    height: 2em;
     color: #1296db;
     cursor: pointer
+}
+svg {
+    padding: 2px;
 }
 
 .icon {
@@ -20,7 +70,7 @@ audio {
     overflow: hidden;
 }
 .icon:hover {
-    opacity: 0.7;
+    color: #f70;
 }
 
 
@@ -33,7 +83,10 @@ audio {
     cursor: pointer;
 }
 
+.song {
+    padding: 2px;
+}
 .song:hover {
-    opacity: 0.7;
+    color: #f70;
     cursor: pointer;
 }

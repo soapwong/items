@@ -41,7 +41,6 @@ const bindEventPlay = function(audio) {
     let button = e("#id-button-play")
     bindEvent(button, 'click', function(event) {
         buttonPlay(audio)
-        // log('button')
         playPause(audio)
     })
 }
@@ -49,18 +48,18 @@ const bindEventPlay = function(audio) {
 // chrome 新版禁止了自动播放
 const bindEventCanplay = function(audio) {
     audio.addEventListener('canplay', () => {
-        audio.play()
+        // audio.play()
         showCurrentTime(audio)
     })
 }
 
 // 单曲循环
-var allSongs = function () {
-    var l = e('#id-song-list')
-    var s = l.querySelectorAll('.song')
-    var songs = []
-    for (var i = 0; i < s.length; i++) {
-        var song = {}
+const allSongs = function() {
+    let l = e('#id-song-list')
+    let s = l.querySelectorAll('.song')
+    let songs = []
+    for (let i = 0; i < s.length; i++) {
+        let song = {}
         song.index = i
         song.path = s[i].dataset.path
         song.name = s[i].innerHTML
@@ -69,52 +68,52 @@ var allSongs = function () {
     return songs
 }
 
-var singlePlay = function (audio) {
-    var songs = allSongs()
-    var src = audio.src.split('/').slice(-1)[0]
-    for (var i = 0; i < songs.length; i++) {
+const singlePlay = function(audio) {
+    let songs = allSongs()
+    let src = audio.src.split('/').slice(-1)[0]
+    for (let i = 0; i < songs.length; i++) {
         if (songs[i].path == src) {
             return songs[i]
         }
     }
 }
 
-var loopPlay = function (audio) {
-    var songs = allSongs()
-    var src = audio.src.split('/').slice(-1)[0]
-    for (var i = 0; i < songs.length; i++) {
+const loopPlay = function(audio) {
+    let songs = allSongs()
+    let src = audio.src.split('/').slice(-1)[0]
+    for (let i = 0; i < songs.length; i++) {
         if (songs[i].path == src) {
-            var index = (i + 1) % songs.length
+            let index = (i + 1) % songs.length
             return songs[index]
         }
     }
 }
 
-var loopPlayLast = function (audio) {
-    var songs = allSongs()
-    var src = audio.src.split('/').slice(-1)[0]
-    for (var i = 0; i < songs.length; i++) {
+const loopPlayLast = function(audio) {
+    let songs = allSongs()
+    let src = audio.src.split('/').slice(-1)[0]
+    for (let i = 0; i < songs.length; i++) {
         if (songs[i].path == src) {
-            var index = (i + songs.length - 1) % songs.length
+            let index = (i + songs.length - 1) % songs.length
             return songs[index]
         }
     }
 }
 
-var choice = function (array) {
-    var a = Math.random()
+const choice = function (array) {
+    let a = Math.random()
     a = a * array.length
-    var index = Math.floor(a)
+    let index = Math.floor(a)
     return array[index]
 }
 
-var shufflePlay = function (audio) {
-    var songs = allSongs()
-    var src = audio.src.split('/').slice(-1)[0]
-    for (var i = 0; i < songs.length; i++) {
+const shufflePlay = function(audio) {
+    let songs = allSongs()
+    let src = audio.src.split('/').slice(-1)[0]
+    for (let i = 0; i < songs.length; i++) {
         if (songs[i].path == src) {
             songs.splice(i, 1)
-            var song = choice(songs)
+            let song = choice(songs)
             return song
         }
     }
@@ -122,36 +121,37 @@ var shufflePlay = function (audio) {
 
 const nextSong = function(audio) {
     let button = e('#id-play-mode')
+    let song = loopPlay(audio)
     if (button.classList.contains('danquxunhuan')) {
-        var song = singlePlay(audio)
+        song = singlePlay(audio)
     } else if (button.classList.contains('liebiaoxunhuan')) {
-        var song = loopPlay(audio)
+        song = loopPlay(audio)
     } else if (button.classList.contains('suiji')) {
-        var song = shufflePlay(audio)
+        song = shufflePlay(audio)
     }
     return song
 }
-
-const lastSong = function (audio) {
+// log('song', song)
+const lastSong = function(audio) {
     let button = e('#id-play-mode')
+    let song = loopPlay(audio)
     if (button.classList.contains('danquxunhuan')) {
-        var song = singlePlay(audio)
+        song = singlePlay(audio)
     } else if (button.classList.contains('liebiaoxunhuan')) {
-        var song = loopPlayLast(audio)
+        song = loopPlayLast(audio)
     } else if (button.classList.contains('suiji')) {
-        var song = shufflePlay(audio)
+        song = shufflePlay(audio)
     }
     return song
 }
 
-var songSelected = function (audio) {
-    var sel = e('.selected')
-    var l = e('#id-song-list')
-    var s = l.querySelectorAll('.song')
-    var src = audio.src.split('/').slice(-1)[0]
-    // log('songs', src)
+const songSelected = function(audio) {
+    let sel = e('.selected')
+    let l = e('#id-song-list')
+    let s = l.querySelectorAll('.song')
+    let src = audio.src.split('/').slice(-1)[0]
     if (!(sel.dataset.path == audio.src)) {
-        for (var i = 0; i < s.length; i++) {
+        for (let i = 0; i < s.length; i++) {
             if (s[i].dataset.path == src) {
                 sel.classList.remove('selected')
                 s[i].classList.toggle('selected')
@@ -160,11 +160,11 @@ var songSelected = function (audio) {
     }
 }
 
-var bindEventNext = function (audio) {
-    var btn = e('#id-button-next')
-    var name = e('.song-name')
+const bindEventNext = function(audio) {
+    let btn = e('#id-button-next')
+    let name = e('.song-name')
     bindEvent(btn, 'click', function (event) {
-        var song = nextSong(audio)
+        let song = nextSong(audio)
         audio.src = song.path
         name.innerHTML = song.name
         songSelected(audio)
@@ -172,11 +172,11 @@ var bindEventNext = function (audio) {
     })
 }
 
-var bindEventLast = function (audio) {
-    var btn = e('#id-button-last')
-    var name = e('.song-name')
+const bindEventLast = function(audio) {
+    let btn = e('#id-button-last')
+    let name = e('.song-name')
     bindEvent(btn, 'click', function (event) {
-        var song = lastSong(audio)
+        let song = lastSong(audio)
         audio.src = song.path
         name.innerHTML = song.name
         songSelected(audio)
@@ -184,11 +184,11 @@ var bindEventLast = function (audio) {
     })
 }
 
-var bindEventSongName = function (audio) {
-    var name = e('.song-name')
+const bindEventSongName = function(audio) {
+    let name = e('.song-name')
     bindAll('.song', 'click', function () {
-        var self = event.target
-        var path = self.dataset.path
+        let self = event.target
+        let path = self.dataset.path
         audio.src = path
         name.innerHTML = self.innerHTML
         songSelected(audio)
@@ -200,7 +200,7 @@ const bindEventMode = function() {
     let button = e('#id-play-mode')
     let mode = 'liebiaoxunhuan'
     bindEvent(button, 'click', function() {
-        log('click', button)
+        // log('click', button)
         if (button.classList.contains('danquxunhuan')) {
             button.classList.remove('danquxunhuan')
             button.classList.toggle('liebiaoxunhuan')
@@ -218,14 +218,31 @@ const bindEventMode = function() {
     })
 }
 
+const bindEventSound = function(audio) {
+    let icon = e('#id-music-icon')
+    let range = e('#id-input-sound')
+    bindEvent(range, 'input', function(event) {
+        let input = event.target
+        let value = input.value
+        let mode = 'shengyin'
+        audio.volume = Number(value / 100)
+        if (audio.volume == 0) {
+            mode = 'jingyin'
+        }
+        icon.innerHTML = templateMode(mode)
+    })
+}
+
 const bindEvents = function() {
     let audio = e('#id-audio-player')
     bindEventPlay(audio)
+    // chrome 新版禁止了自动播放
     bindEventCanplay(audio)
     bindEventMode()
     bindEventSongName(audio)
     bindEventNext(audio)
     bindEventLast(audio)
+    bindEventSound(audio)
 
     // mode
 }
