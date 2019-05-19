@@ -9,110 +9,226 @@ const showCurrentTime = function(audio) {
         currentLabel.innerHTML = s
     }, 0)
 }
-// 绑定播放 暂停按钮
+
+const templateMode = function(mode) {
+    let t = `
+        <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon${mode}"></use>
+        </svg>
+    `
+    return t
+}
+
+const buttonPlay = function(audio) {
+    let button = e("#id-button-play")
+    let mode = 'bofang'
+    if (audio.paused) {
+        mode = 'bofang'
+    } else if (audio.readyState === 4) {
+        mode = 'zanting'
+    }
+    button.innerHTML = templateMode(mode)
+}
+
+const playPause = function(audio) {
+    if (audio.readyState === 4 && audio.paused) {
+        audio.play()
+    } else {
+        audio.pause()
+    }
+}
+
 const bindEventPlay = function(audio) {
-    let button = e('#id-button-play')
-    button.addEventListener('click', () => {
+    let button = e("#id-button-play")
+    bindEvent(button, 'click', function(event) {
+        buttonPlay(audio)
+        // log('button')
+        playPause(audio)
+    })
+}
+
+// chrome 新版禁止了自动播放
+const bindEventCanplay = function(audio) {
+    audio.addEventListener('canplay', () => {
         audio.play()
         showCurrentTime(audio)
     })
 }
 
-const bindEventPause = function(audio) {
-    let button = e('#id-button-pause')
-    button.addEventListener('click', () => {
-        audio.pause()
-    })
-}
-
-const bindEventChange = function(audio) {
-    let container = e('#id-div-music')
-    container.addEventListener('click', (event) => {
-        let self = event.target
-        let path = self.dataset.path
-        audio.src = path
-    })
-}
-// chrome 新版禁止了自动播放
-const bindEventCanplay = function(audio) {
-    audio.addEventListener('canplay', () => {
-        // audio.play()
-        showCurrentTime(audio)
-    })
-}
-
 // 单曲循环
-const bindEventSingle = function(audio) {
-    audio.addEventListener('ended', () => {
-        let s = audio.src
-        audio.src = s
-    })
-}
-
-// 载入所有音乐
-const allSongs = function() {
-    let musics = es('.music')
-    let songs = []
-    for (let i = 0; i < musics.length; i++) {
-        let m = musics[i]
-        let path = m.dataset.path
-        songs.push(path)
+var allSongs = function () {
+    var l = e('#id-song-list')
+    var s = l.querySelectorAll('.song')
+    var songs = []
+    for (var i = 0; i < s.length; i++) {
+        var song = {}
+        song.index = i
+        song.path = s[i].dataset.path
+        song.name = s[i].innerHTML
+        songs.push(song)
     }
     return songs
 }
 
-// 下一首歌
-const nextSong = function(audio) {
-    let songs = allSongs()
-    let src = audio.src.split('/').slice(-1)[0]
-    let index = songs.indexOf(src)
-    index = (index + 1) % songs.length
-    return songs[index]
+var cycleSingle = function (audio) {
+    var songs = allSongs()
+    var src = audio.src.split('/').slice(-1)[0]
+    for (var i = 0; i < songs.length; i++) {
+        if (songs[i].path == src) {
+            return songs[i]
+        }
+    }
 }
 
-// 顺序播放
-const bindEventOrder = function(audio) {
-    audio.addEventListener('ended', () => {
-        let song = nextSong(audio)
-        audio.src = song
-    })
+var loopPlay = function (audio) {
+    var songs = allSongs()
+    var src = audio.src.split('/').slice(-1)[0]
+    for (var i = 0; i < songs.length; i++) {
+        if (songs[i].path == src) {
+            var index = (i + 1) % songs.length
+            return songs[index]
+        }
+    }
 }
 
-// 随机播放
-const choice = function(array) {
-    // 得到 0 - 1 的小数
-    // 把 a 转成 0 -array.length 之间的小数
-    // 得到 0 - array.length - 1 之间的整数做下标
-    // 得到 array 的随机元素
-    let a = Math.random()
+var loopPlayLast = function (audio) {
+    var songs = allSongs()
+    var src = audio.src.split('/').slice(-1)[0]
+    for (var i = 0; i < songs.length; i++) {
+        if (songs[i].path == src) {
+            var index = (i + songs.length - 1) % songs.length
+            return songs[index]
+        }
+    }
+}
+
+var choice = function (array) {
+    var a = Math.random()
     a = a * array.length
-    let index = Math.floor(a)
+    var index = Math.floor(a)
     return array[index]
 }
 
-const randomSong = function() {
-    let songs = allSongs()
-    let s = choice(songs)
-    return s
+var shufflePlay = function (audio) {
+    var songs = allSongs()
+    var src = audio.src.split('/').slice(-1)[0]
+    for (var i = 0; i < songs.length; i++) {
+        if (songs[i].path == src) {
+            songs.splice(i, 1)
+            var song = choice(songs)
+            return song
+        }
+    }
 }
 
-const bindEventRandom = function(audio) {
-    audio.addEventListener('ended', () => {
-        let song = randomSong()
-        audio.src = song
+const nextSong = function(audio) {
+    let button = e('#id-play-mode')
+    if (button.classList.contains('danquxunhuan')) {
+        var song = cycleSingle(audio)
+    } else if (button.classList.contains('liebiaoxunhuan')) {
+        var song = loopPlay(audio)
+    } else if (button.classList.contains('suiji')) {
+        var song = shufflePlay(audio)
+    }
+    return song
+}
+
+const lastSong = function (audio) {
+    let button = e('#id-play-mode')
+    if (button.classList.contains('danquxunhuan')) {
+        var song = cycleSingle(audio)
+    } else if (button.classList.contains('liebiaoxunhuan')) {
+        var song = loopPlayLast(audio)
+    } else if (button.classList.contains('suiji')) {
+        var song = shufflePlay(audio)
+    }
+    return song
+}
+
+var songSelected = function (audio) {
+    var sel = e('.selected')
+    var l = e('#id-song-list')
+    var s = l.querySelectorAll('.song')
+    var src = audio.src.split('/').slice(-1)[0]
+    // log('songs', src)
+    if (!(sel.dataset.path == audio.src)) {
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].dataset.path == src) {
+                sel.classList.remove('selected')
+                s[i].classList.toggle('selected')
+            }
+        }
+    }
+}
+
+var bindEventNext = function (audio) {
+    var btn = e('#id-button-next')
+    var name = e('.song-name')
+    bindEvent(btn, 'click', function (event) {
+        var song = nextSong(audio)
+        audio.src = song.path
+        name.innerHTML = song.name
+        songSelected(audio)
+        playPause(audio)
+    })
+}
+
+var bindEventLast = function (audio) {
+    var btn = e('#id-button-last')
+    var name = e('.song-name')
+    bindEvent(btn, 'click', function (event) {
+        var song = lastSong(audio)
+        audio.src = song.path
+        name.innerHTML = song.name
+        songSelected(audio)
+        buttonPlay(audio)
+    })
+}
+
+var bindEventSongName = function (audio) {
+    var name = e('.song-name')
+    bindAll('.song', 'click', function () {
+        var self = event.target
+        var path = self.dataset.path
+        audio.src = path
+        name.innerHTML = self.innerHTML
+        songSelected(audio)
+        buttonPlay(audio)
+    })
+}
+
+const bindEventMode = function() {
+    let button = e('#id-play-mode')
+    let mode = 'liebiaoxunhuan'
+    bindEvent(button, 'click', function() {
+        log('click', button)
+        if (button.classList.contains('danquxunhuan')) {
+            button.classList.remove('danquxunhuan')
+            button.classList.toggle('liebiaoxunhuan')
+            mode = 'liebiaoxunhuan'
+        } else if (button.classList.contains('liebiaoxunhuan')) {
+            button.classList.remove('liebiaoxunhuan')
+            button.classList.toggle('suiji')
+            mode = 'suiji'
+        } else if (button.classList.contains('suiji')) {
+            button.classList.remove('suiji')
+            button.classList.toggle('danquxunhuan')
+            mode = 'danquxunhuan'
+        }
+        button.innerHTML = templateMode(mode)
     })
 }
 
 const bindEvents = function() {
     let audio = e('#id-audio-player')
     bindEventPlay(audio)
-    bindEventPause(audio)
-    bindEventChange(audio)
     bindEventCanplay(audio)
+    bindEventMode()
+    bindEventSongName(audio)
+    bindEventNext(audio)
+    bindEventLast(audio)
 
-    // bindEventSingle(audio)
-    bindEventOrder(audio)
-    // bindEventRandom(audio)
+    // mode
 }
 
 const __main = function() {

@@ -3,23 +3,50 @@
     <head>
         <meta charset="utf-8">
         <title>音乐播放器</title>
-        <style media="screen">
-
-        </style>
+        <link rel="stylesheet" href="music.css">
     </head>
     <body>
-        <audio src="1.mp3" id="id-audio-player" controls="controls"></audio>
-        <div id="id-div-music">
-            <div class="music" data-path="1.mp3">Narrow Skies - With You</div>
-            <div class="music" data-path="2.mp3">别让我走远 - 林宥嘉</div>
-            <div class="music" data-path="3.mp3">可一可在 - 陈奕迅.mp3</div>
+        <audio src="1.mp3" id="id-audio-player" preload="auto" controls="controls"></audio>
+        <div id="id-song-controler" class="controler">
+            <div class="song-name">Narrow Skies - With You</div>
+            <div id="id-play-mode" class="liebiaoxunhuan">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconliebiaoxunhuan"></use>
+                </svg>
+            </div>
+            <!-- 上一首 -->
+            <div id="id-button-last" class="player-last">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconkuaitui"></use>
+                </svg>
+            </div>
+            <div id="id-button-play" class="play-pause">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconzanting"></use>
+                </svg>
+            </div>
+            <div id="id-button-next" class="player-next">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconkuaijin"></use>
+                </svg>
+            </div>
+            <div id="id-music-sound" class="sound">
+                <div id="id-music-icon" class="sound-icon">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#iconshengyin"></use>
+                    </svg>
+                </div>
+                <div><input id="id-input-sound" class="sound-range" type="range" value="50"></div>
+            </div>
         </div>
-        <button id="id-button-play">播放</button>
-        <button id="id-button-pause">暂停</button>
-        <button type="button" name="button">顺序播放</button>
         <div class="time">
             <span id="id-span-current"></span>
             <span id="id-span-duration"></span>
+        </div>
+        <div id="id-song-list">
+            <div class="song selected"  data-path="1.mp3">Narrow Skies - With You</div>
+            <div class="song" data-path="2.mp3">别让我走远 - 林宥嘉</div>
+            <div class="song" data-path="3.mp3">可一可在 - 陈奕迅.mp3</div>
         </div>
         <script src="https://at.alicdn.com/t/font_1189003_7aq6mnqr2pp.js"></script>
         <script src="../soap.js"></script>
