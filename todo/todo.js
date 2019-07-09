@@ -15,6 +15,7 @@ const templateTodo = function(todo) {
     `
     return t
 }
+
 const loadTodos = () => {
     let s = localStorage.savedTodos
     if (s === undefined) {
@@ -97,7 +98,6 @@ const bindEventDelete = () => {
         let target = event.target
         if (target.classList.contains('todo-delete')) {
             let todoDiv = target.closest('.todo-cell')
-            let container = todoDiv.parentElement
             deleteTodo(todoContainer, todoDiv)
         }
     })
